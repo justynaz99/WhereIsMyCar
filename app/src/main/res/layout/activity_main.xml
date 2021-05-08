@@ -10,12 +10,12 @@
         android:id="@+id/tv_labellat"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="32dp"
         android:text="Latitude:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_lat"
@@ -24,19 +24,18 @@
         android:layout_marginTop="32dp"
         android:text="0.00"
         app:layout_constraintStart_toEndOf="@+id/tv_labellat"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_labellon"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="16dp"
         android:text="Longitude:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_labellat"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"/>
+        app:layout_constraintTop_toBottomOf="@+id/tv_labellat" />
 
     <TextView
         android:id="@+id/tv_lon"
@@ -52,12 +51,12 @@
         android:id="@+id/tv_labelsensor"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:text="Sensor"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sw_gps"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"/>
+        app:layout_constraintTop_toBottomOf="@+id/sw_gps" />
 
     <TextView
         android:id="@+id/tv_sensor"
@@ -71,12 +70,12 @@
         android:id="@+id/tv_labelupdates"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:text="GPS"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sw_locationsupdates"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:text="GPS"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sw_locationsupdates" />
 
     <TextView
         android:id="@+id/tv_updates"
@@ -138,8 +137,8 @@
         android:layout_marginTop="32dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintTop_toBottomOf="@+id/tv_address"
-        tools:layout_editor_absoluteX="1dp"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="1dp" />
 
     <TextView
         android:id="@+id/tv_labelwaypoints"
@@ -167,8 +166,8 @@
         android:id="@+id/button_newWayPoint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="12dp"
         android:layout_marginRight="10dp"
         android:text="Zapamiętaj miejsce parkowania"
         app:layout_constraintEnd_toEndOf="parent"
@@ -180,8 +179,8 @@
         android:id="@+id/button_showWayPointList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="12dp"
         android:layout_marginRight="10dp"
         android:text="Pokaż listę zapamiętanych miejsc"
         app:layout_constraintEnd_toEndOf="parent"
@@ -192,8 +191,8 @@
         android:id="@+id/button_showMap"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="12dp"
         android:layout_marginRight="10dp"
         android:text="Pokaż mapę"
         app:layout_constraintEnd_toEndOf="parent"

@@ -11,6 +11,8 @@ public class MyApplication extends Application {
     private static MyApplication singleton;
     private List<Location> myLocations;
 
+
+
     public List<Location> getMyLocations() {
         return myLocations;
     }
@@ -28,4 +30,6 @@ public class MyApplication extends Application {
         singleton = this;
         myLocations = new ArrayList<>();
     }
+
+
 }

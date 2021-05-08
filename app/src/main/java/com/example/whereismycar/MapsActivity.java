@@ -2,6 +2,7 @@ package com.example.whereismycar;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -13,6 +14,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -32,6 +34,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         MyApplication myApplication = (MyApplication)getApplicationContext();
         savedLocations = myApplication.getMyLocations();
+
     }
 
     @Override
@@ -45,15 +48,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         LatLng lastLocationPlaced = sydney;
 
-        for (Location location: savedLocations) {
-            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-            MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(latLng);
-            markerOptions.title("Lat: " + location.getLatitude() + " Lon: " + location.getLongitude());
-            mMap.addMarker(markerOptions);
-            lastLocationPlaced = latLng;
+//        for (Location location: savedLocations) {
+//            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+//            MarkerOptions markerOptions = new MarkerOptions();
+//            markerOptions.position(latLng);
+//            markerOptions.title("Lat: " + location.getLatitude() + " Lon: " + location.getLongitude());
+//            mMap.addMarker(markerOptions);
+//            lastLocationPlaced = latLng;
+//
+//        }
 
-        }
+//        MarkerOptions markerOptions = new MarkerOptions();
+//        markerOptions.position(latLng);
+//        markerOptions.title("Lat: " + location.getLatitude() + " Lon: " + location.getLongitude());
+//        mMap.addMarker(markerOptions);
+//        lastLocationPlaced = latLng;
+
+
 
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(lastLocationPlaced, 12.0f));
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {

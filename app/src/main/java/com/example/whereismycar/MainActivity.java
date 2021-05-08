@@ -2,7 +2,9 @@ package com.example.whereismycar;
 
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -27,6 +29,7 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -36,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int PERMISSIONS_FINE_LOCATION = 99;
     private final LatLng defaultLocation = new LatLng(-33.8523341, 151.2106085);
 
-    TextView tv_lat, tv_lon, tv_sensor, tv_updates, tv_address, tv_wayPointsCount;
+    TextView tv_lat, tv_lon, tv_sensor, tv_updates, tv_address, tv_wayPointsCount, savedText;
     Switch sw_locationupdates, sw_gps;
     Button button_newWayPoint, button_showWayPointList, button_showMap;
 
@@ -48,14 +51,17 @@ public class MainActivity extends AppCompatActivity {
     //list of saved locations
     List<Location> savedLocations;
 
-
     //Google's API for location services
     FusedLocationProviderClient fusedLocationProviderClient;
-
     //Location request is a config file for all settings related to FusedLocationProviderClient
     LocationRequest locationRequest;
-
     LocationCallback locationCallBack;
+
+    public static final String SHARED_PREFS = "sharedPrefs";
+    public static final String LAT = "lat";
+    public static final String LON = "lon";
+    private String latToSave;
+    private String lonToSave;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
         button_showWayPointList = findViewById(R.id.button_showWayPointList);
         tv_wayPointsCount = findViewById(R.id.tv_waypoints);
         button_showMap = findViewById(R.id.button_showMap);
+
 
 
         locationRequest = new LocationRequest();
@@ -101,6 +108,8 @@ public class MainActivity extends AppCompatActivity {
                 MyApplication myApplication = (MyApplication) getApplicationContext();
                 savedLocations = myApplication.getMyLocations();
                 savedLocations.add(currentLocation);
+
+                saveData();
             }
         });
 
@@ -144,8 +153,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         updateGPS();
     }
+
+    public void saveData() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        Double lat =  currentLocation.getLatitude();
+        Double lon = currentLocation.getLongitude();
+        editor.putString(LAT, lat.toString());
+        editor.putString(LON, lon.toString());
+        editor.apply();
+
+        Toast.makeText(this, "Data saved", Toast.LENGTH_SHORT).show();
+    }
+
+
+
+
 
     private void startLocationUpdates() {
         tv_updates.setText("Location is being tracked");
