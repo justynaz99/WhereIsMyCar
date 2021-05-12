@@ -3,4 +3,6 @@
     <string name="save_place">Zapamiętaj miejsce parkowania</string>
     <string name="title_activity_maps">Map</string>
     <string name="show_map">Pokaż mapę</string>
+    <string name="location_tracked">Location is being tracked</string>
+    <string name="location_not_tracked">Location is not being tracked</string>
 </resources>

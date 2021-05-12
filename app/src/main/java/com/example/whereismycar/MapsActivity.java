@@ -15,7 +15,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.gson.Gson;
+
 
 import java.util.List;
 
@@ -58,6 +58,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         loadData();
         addMarker();
         onMarkerClick();
+
+
     }
 
     public void loadData() {

@@ -1,6 +1,4 @@
 package com.example.whereismycar;
-
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -29,7 +27,6 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -38,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
     public static final int FAST_UPDATE_INTERVAL = 5;
     private static final int PERMISSIONS_FINE_LOCATION = 99;
     private final LatLng defaultLocation = new LatLng(-33.8523341, 151.2106085);
-    
 
     TextView tv_lat, tv_lon, tv_sensor, tv_updates, tv_address, tv_wayPointsCount, savedText;
     Switch sw_locationupdates, sw_gps;
@@ -47,9 +43,7 @@ public class MainActivity extends AppCompatActivity {
     //variable to remember if you are tracking location or not
     boolean updateOn = false;
 
-    //current location
     Location currentLocation;
-    //list of saved locations
     List<Location> savedLocations;
 
     //Google's API for location services
@@ -80,8 +74,6 @@ public class MainActivity extends AppCompatActivity {
         button_showWayPointList = findViewById(R.id.button_showWayPointList);
         tv_wayPointsCount = findViewById(R.id.tv_waypoints);
         button_showMap = findViewById(R.id.button_showMap);
-
-
 
         locationRequest = new LocationRequest();
         //how often app updates
@@ -173,18 +165,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-
     private void startLocationUpdates() {
-        tv_updates.setText("Location is being tracked");
+        tv_updates.setText(R.string.location_tracked);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
         }
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallBack, null);
@@ -192,16 +175,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void stopLocationUpdates() {
-        tv_updates.setText("Location is not being tracked");
-        tv_lat.setText("Location is not being tracked");
-        tv_lon.setText("Location is not being tracked");
-        tv_address.setText("Location is not being tracked");
-        tv_sensor.setText("Location is not being tracked");
+        tv_updates.setText(R.string.location_not_tracked);
+        tv_lat.setText(R.string.location_not_tracked);
+        tv_lon.setText(R.string.location_not_tracked);
+        tv_address.setText(R.string.location_not_tracked);
+        tv_sensor.setText(R.string.location_not_tracked);
 
         fusedLocationProviderClient.removeLocationUpdates(locationCallBack);
     }
-
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -272,5 +253,4 @@ public class MainActivity extends AppCompatActivity {
         tv_wayPointsCount.setText(Integer.toString(savedLocations.size()));
 
     }
-
 }
