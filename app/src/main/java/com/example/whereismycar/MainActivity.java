@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int FAST_UPDATE_INTERVAL = 5;
     private static final int PERMISSIONS_FINE_LOCATION = 99;
     private final LatLng defaultLocation = new LatLng(-33.8523341, 151.2106085);
+    
 
     TextView tv_lat, tv_lon, tv_sensor, tv_updates, tv_address, tv_wayPointsCount, savedText;
     Switch sw_locationupdates, sw_gps;
@@ -271,4 +272,5 @@ public class MainActivity extends AppCompatActivity {
         tv_wayPointsCount.setText(Integer.toString(savedLocations.size()));
 
     }
+
 }
