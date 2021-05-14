@@ -1,8 +1,12 @@
 package com.example.whereismycar;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import android.Manifest;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -42,7 +46,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        MyApplication myApplication = (MyApplication)getApplicationContext();
+        MyApplication myApplication = (MyApplication) getApplicationContext();
         savedLocations = myApplication.getMyLocations();
 
         savedText = (TextView) findViewById(R.id.savedText);
@@ -59,24 +63,45 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         addMarker();
         onMarkerClick();
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        mMap.setMyLocationEnabled(true);
+
 
     }
 
     public void loadData() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        latSaved = sharedPreferences.getString(LAT, "");
-        lonSaved = sharedPreferences.getString(LON, "");
-        Double latSavedDouble = Double.parseDouble(latSaved);
-        Double lonSavedDouble = Double.parseDouble(lonSaved);
-        latLng = new LatLng(latSavedDouble, lonSavedDouble);
+        try {
+            latSaved = sharedPreferences.getString(LAT, "");
+            lonSaved = sharedPreferences.getString(LON, "");
+            Double latSavedDouble = Double.parseDouble(latSaved);
+            Double lonSavedDouble = Double.parseDouble(lonSaved);
+            latLng = new LatLng(latSavedDouble, lonSavedDouble);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Wystąpił problem z zapisaniem lokalizacji", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void addMarker() {
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(latLng);
-        markerOptions.title("Lat: " + latSaved + " Lon: " + lonSaved);
-        mMap.addMarker(markerOptions);
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12.0f));
+        try {
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(latLng);
+            markerOptions.title("Lat: " + latSaved + " Lon: " + lonSaved);
+            mMap.addMarker(markerOptions);
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12.0f));
+        } catch (IllegalArgumentException e) {
+            Toast.makeText(this, "Wystąpił problem z zapisaniem lokalizacji", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void onMarkerClick() {
@@ -99,5 +124,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
     }
+
 
 }

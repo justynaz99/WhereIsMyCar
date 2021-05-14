@@ -7,4 +7,10 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="toolbar_green">#40cbc6</color>
+    <color name="button_blue">#4ea5d2</color>
+    <color name="button_navy">#4873a6</color>
+    <color name="button_purple">#5a5387</color>
+    <color name="button_dark_purple">#534367</color>
 </resources>

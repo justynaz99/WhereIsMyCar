@@ -1,6 +1,8 @@
 package com.example.whereismycar;
 
 import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -17,16 +19,15 @@ public class ShowSavedLocationsList extends AppCompatActivity {
     public static final String SHARED_PREFS = "sharedPrefs";
     public static final String LAT = "lat";
     public static final String LON = "lon";
-    private String lonSaved;
-    private String latSaved;
-    private TextView savedText;
+    private TextView tv_address;
+    List<Address> addresses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_saved_locations_list);
 
-        savedText = (TextView) findViewById(R.id.savedText);
+        tv_address = (TextView) findViewById(R.id.savedText);
 
         loadData();
         updateViews();
@@ -34,12 +35,36 @@ public class ShowSavedLocationsList extends AppCompatActivity {
     }
 
     public void loadData() {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        latSaved = sharedPreferences.getString(LAT, "");
-        lonSaved = sharedPreferences.getString(LON, "");
+
+        Geocoder geocoder = new Geocoder(ShowSavedLocationsList.this);
+
+        try {
+            SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+            String latSaved = sharedPreferences.getString(LAT, "");
+            String lonSaved = sharedPreferences.getString(LON, "");
+            double latDouble = Double.parseDouble(latSaved);
+            double lonDouble = Double.parseDouble(lonSaved);
+            try {
+                addresses = geocoder.getFromLocation(latDouble, lonDouble, 1);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+
     }
 
     public void updateViews() {
-        savedText.setText(latSaved + " " + lonSaved);
+
+        try {
+            tv_address.setText(addresses.get(0).getAddressLine(0));
+        } catch (Exception e) {
+            tv_address.setText(R.string.unable_adress);
+        }
     }
 }

@@ -36,9 +36,9 @@ public class MainActivity extends AppCompatActivity {
     private static final int PERMISSIONS_FINE_LOCATION = 99;
     private final LatLng defaultLocation = new LatLng(-33.8523341, 151.2106085);
 
-    TextView tv_lat, tv_lon, tv_sensor, tv_updates, tv_address, tv_wayPointsCount, savedText;
-    Switch sw_locationupdates, sw_gps;
-    Button button_newWayPoint, button_showWayPointList, button_showMap;
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
+    Switch sw_locationUpdates, sw_savePower;
+    Button btn_savePlace, btn_showAddress, btn_showMap;
 
     //variable to remember if you are tracking location or not
     boolean updateOn = false;
@@ -63,17 +63,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tv_lat = findViewById(R.id.tv_lat);
-        tv_lon = findViewById(R.id.tv_lon);
-        tv_sensor = findViewById(R.id.tv_sensor);
-        tv_updates = findViewById(R.id.tv_updates);
-        tv_address = findViewById(R.id.tv_address);
-        sw_gps = findViewById(R.id.sw_gps);
-        sw_locationupdates = findViewById(R.id.sw_locationsupdates);
-        button_newWayPoint = findViewById(R.id.button_newWayPoint);
-        button_showWayPointList = findViewById(R.id.button_showWayPointList);
-        tv_wayPointsCount = findViewById(R.id.tv_waypoints);
-        button_showMap = findViewById(R.id.button_showMap);
+        sw_savePower = findViewById(R.id.sw_savePower);
+        sw_locationUpdates = findViewById(R.id.sw_locationUpdates);
+        btn_savePlace = findViewById(R.id.btn_savePlace);
+        btn_showAddress = findViewById(R.id.btn_showAddress);
+        btn_showMap = findViewById(R.id.btn_showMap);
 
         locationRequest = new LocationRequest();
         //how often app updates
@@ -86,17 +80,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onLocationResult(@NonNull LocationResult locationResult) {
                 super.onLocationResult(locationResult);
-
-                //save the location
                 updateUIValues(locationResult.getLastLocation());
             }
         };
 
-        button_newWayPoint.setOnClickListener(new View.OnClickListener() {
+        btn_savePlace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //get the GPS location
-
                 //add the new location to the global list
                 MyApplication myApplication = (MyApplication) getApplicationContext();
                 savedLocations = myApplication.getMyLocations();
@@ -106,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        button_showWayPointList.setOnClickListener(new View.OnClickListener() {
+        btn_showAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i =  new Intent(MainActivity.this, ShowSavedLocationsList.class);
@@ -114,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        button_showMap.setOnClickListener(new View.OnClickListener() {
+        btn_showMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, MapsActivity.class);
@@ -122,30 +113,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        sw_gps.setOnClickListener(new View.OnClickListener() {
+        sw_savePower.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (sw_gps.isChecked()) {
+                if (sw_savePower.isChecked()) {
                     locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-                    tv_sensor.setText("Using GPS sensors");
                 } else {
                     locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-                    tv_sensor.setText("Using towers + WIFI");
                 }
             }
         });
 
-        sw_locationupdates.setOnClickListener(new View.OnClickListener() {
+        sw_locationUpdates.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (sw_locationupdates.isChecked()) {
+                if (sw_locationUpdates.isChecked()) {
                     startLocationUpdates();
                 } else {
                     stopLocationUpdates();
                 }
             }
         });
-
 
         updateGPS();
     }
@@ -154,20 +142,25 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        Double lat =  currentLocation.getLatitude();
-        Double lon = currentLocation.getLongitude();
-        editor.putString(LAT, lat.toString());
-        editor.putString(LON, lon.toString());
-        editor.apply();
+        try {
+            double lat =  currentLocation.getLatitude();
+            double lon = currentLocation.getLongitude();
+            editor.putString(LAT, Double.toString(lat));
+            editor.putString(LON, Double.toString(lon));
+            editor.apply();
+            Toast.makeText(this, "Miejsce zapisane!", Toast.LENGTH_SHORT).show();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Nieznana lokalizacja", Toast.LENGTH_SHORT).show();
+        }
 
-        Toast.makeText(this, "Data saved", Toast.LENGTH_SHORT).show();
     }
 
 
 
     private void startLocationUpdates() {
-        tv_updates.setText(R.string.location_tracked);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallBack, null);
@@ -175,12 +168,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void stopLocationUpdates() {
-        tv_updates.setText(R.string.location_not_tracked);
-        tv_lat.setText(R.string.location_not_tracked);
-        tv_lon.setText(R.string.location_not_tracked);
-        tv_address.setText(R.string.location_not_tracked);
-        tv_sensor.setText(R.string.location_not_tracked);
-
         fusedLocationProviderClient.removeLocationUpdates(locationCallBack);
     }
 
@@ -188,16 +175,14 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        switch (requestCode) {
-            case PERMISSIONS_FINE_LOCATION:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    updateGPS();
-                } else {
-                    Toast.makeText(this, "This app requires permission to be granted in order to work properly",
-                            Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-                break;
+        if (requestCode == PERMISSIONS_FINE_LOCATION) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                updateGPS();
+            } else {
+                Toast.makeText(this, "This app requires permission to be granted in order to work properly",
+                        Toast.LENGTH_SHORT).show();
+                finish();
+            }
         }
     }
 
@@ -234,23 +219,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateUIValues(Location location) {
-        tv_lat.setText(String.valueOf(location.getLatitude()));
-        tv_lon.setText(String.valueOf(location.getLongitude()));
-
         Geocoder geocoder = new Geocoder(MainActivity.this);
 
         try {
             List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-            tv_address.setText(addresses.get(0).getAddressLine(0));
         } catch (Exception e) {
-            tv_address.setText("Unable to get street address");
+//            tv_address.setText(R.string.unable_adress);
         }
 
         MyApplication myApplication = (MyApplication)getApplicationContext();
         savedLocations = myApplication.getMyLocations();
-
-        //show the number of waypoints saved
-        tv_wayPointsCount.setText(Integer.toString(savedLocations.size()));
+        
 
     }
 }

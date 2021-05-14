@@ -1,8 +1,12 @@
 <resources>
     <string name="app_name">WhereIsMyCar</string>
-    <string name="save_place">Zapamiętaj miejsce parkowania</string>
     <string name="title_activity_maps">Map</string>
-    <string name="show_map">Pokaż mapę</string>
     <string name="location_tracked">Location is being tracked</string>
     <string name="location_not_tracked">Location is not being tracked</string>
+    <string name="unable_adress">Unable to get street address</string>
+    <string name="save_place">Zapamiętaj miejsce parkowania</string>
+    <string name="show_address">Pokaż adres miejsca parkowania</string>
+    <string name="show_map">Pokaż mapę</string>
+    <string name="location_updates">Wyłącz śledzenie</string>
+    <string name="save_power">Oszczędzanie baterii</string>
 </resources>
