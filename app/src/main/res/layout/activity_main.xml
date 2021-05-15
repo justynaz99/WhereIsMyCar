@@ -8,72 +8,69 @@
 
 
     <Button
-        android:id="@+id/btn_savePlace"
+        android:id="@+id/btn_showMap"
         android:layout_width="match_parent"
         android:layout_height="90dp"
-        android:layout_marginBottom="32dp"
-        android:background="@color/button_blue"
-        android:text="@string/save_place"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/btn_showAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"/>
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="264dp"
+        android:background="@color/white"
+        android:text="@string/show_map"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btn_showAddress"
         android:layout_width="match_parent"
         android:layout_height="90dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_marginBottom="32dp"
-        android:background="@color/button_navy"
+        android:background="@color/white"
         android:text="@string/show_address"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/btn_showMap"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/btn_showMap"
+        android:id="@+id/btn_savePlace"
         android:layout_width="match_parent"
         android:layout_height="90dp"
-        android:layout_marginBottom="288dp"
-        android:background="@color/button_purple"
-        android:text="@string/show_map"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp" />
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="32dp"
+        android:background="@color/maps_green"
+        android:text="@string/save_place"
+        app:layout_constraintBottom_toTopOf="@+id/btn_showAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Switch
         android:id="@+id/sw_locationUpdates"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:checked="true"
+        android:switchPadding="5dp"
         android:text="@string/location_updates"
+        android:theme="@style/ThemeGreenSwitch"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sw_savePower"
-        app:layout_constraintVertical_bias="0.116"
+        app:layout_constraintVertical_bias="0.138"
         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     <Switch
         android:id="@+id/sw_savePower"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="32dp"
+        android:switchPadding="5dp"
         android:text="@string/save_power"
+        android:theme="@style/ThemeGreenSwitch"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_showMap"
         tools:ignore="UseSwitchCompatOrMaterialXml" />

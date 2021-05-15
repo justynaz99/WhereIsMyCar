@@ -117,9 +117,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (sw_savePower.isChecked()) {
-                    locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-                } else {
                     locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+                } else {
+                    locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
                 }
             }
         });
@@ -128,9 +128,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (sw_locationUpdates.isChecked()) {
-                    startLocationUpdates();
-                } else {
                     stopLocationUpdates();
+                } else {
+                    startLocationUpdates();
                 }
             }
         });
@@ -229,7 +229,12 @@ public class MainActivity extends AppCompatActivity {
 
         MyApplication myApplication = (MyApplication)getApplicationContext();
         savedLocations = myApplication.getMyLocations();
-        
-
     }
+
+    //TODO
+    //wyłącz śledzenie
+    //TODO
+    //set marker on current location
+    //TODO
+    //view on AVD
 }

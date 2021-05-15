@@ -13,4 +13,7 @@
     <color name="button_navy">#4873a6</color>
     <color name="button_purple">#5a5387</color>
     <color name="button_dark_purple">#534367</color>
+
+    <color name="maps_green">#b8d2b2</color>
+    <color name="text_gray">#3C3F41</color>
 </resources>

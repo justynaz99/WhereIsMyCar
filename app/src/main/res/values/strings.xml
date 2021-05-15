@@ -1,4 +1,5 @@
 <resources>
+    <string name="title">WHERE IS MY CAR</string>
     <string name="app_name">WhereIsMyCar</string>
     <string name="title_activity_maps">Map</string>
     <string name="location_tracked">Location is being tracked</string>

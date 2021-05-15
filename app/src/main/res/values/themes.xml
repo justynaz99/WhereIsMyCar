@@ -2,16 +2,30 @@
     <!-- Base application theme. -->
     <style name="Theme.WhereIsMyCar" parent="Theme.Design.Light">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/toolbar_green</item>
-        <item name="colorPrimaryVariant">@color/toolbar_green</item>
+        <item name="colorPrimary">@color/maps_green</item>
+        <item name="colorPrimaryVariant">@color/maps_green</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/button_dark_purple</item>
-        <item name="colorSecondaryVariant">@color/button_dark_purple</item>
+        <item name="colorSecondary">@color/maps_green</item>
+        <item name="colorSecondaryVariant">@color/maps_green</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="colorControlActivated">#46bdbf</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textColor">@color/text_gray</item>
     </style>
+
+    <style name="ThemeGreenSwitch" parent="Theme.WhereIsMyCar">
+        <item name="colorAccent">@color/maps_green</item>
+    </style>
+
+    <style name="TextAppearance.AppCompat.Widget.ActionBar.Title" parent="@style/TextAppearance.AppCompat">
+
+        <item name="android:textColor">@color/text_gray</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textSize">20dp</item>
+    </style>
+
+
 </resources>
