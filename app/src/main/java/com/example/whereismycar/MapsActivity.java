@@ -33,7 +33,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static final String LON = "lon";
     private String latSaved;
     private String lonSaved;
-    private TextView savedText;
     LatLng latLng;
     LatLng lastLocationPlaced;
 
@@ -48,8 +47,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         MyApplication myApplication = (MyApplication) getApplicationContext();
         savedLocations = myApplication.getMyLocations();
-
-        savedText = (TextView) findViewById(R.id.savedText);
 
     }
 
@@ -67,8 +64,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return;
         }
         mMap.setMyLocationEnabled(true);
-
-
     }
 
     public void loadData() {
@@ -76,8 +71,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         try {
             latSaved = sharedPreferences.getString(LAT, "");
             lonSaved = sharedPreferences.getString(LON, "");
-            Double latSavedDouble = Double.parseDouble(latSaved);
-            Double lonSavedDouble = Double.parseDouble(lonSaved);
+            double latSavedDouble = Double.parseDouble(latSaved);
+            double lonSavedDouble = Double.parseDouble(lonSaved);
             latLng = new LatLng(latSavedDouble, lonSavedDouble);
         } catch (NumberFormatException e) {
             e.printStackTrace();
@@ -117,6 +112,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
     }
+
+
 
 
 }

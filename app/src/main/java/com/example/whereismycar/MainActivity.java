@@ -39,10 +39,7 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch sw_locationUpdates, sw_savePower;
     Button btn_savePlace, btn_showAddress, btn_showMap;
-
-    //variable to remember if you are tracking location or not
-    boolean updateOn = false;
-
+    
     Location currentLocation;
     List<Location> savedLocations;
 
@@ -55,8 +52,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String SHARED_PREFS = "sharedPrefs";
     public static final String LAT = "lat";
     public static final String LON = "lon";
-    private String latToSave;
-    private String lonToSave;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,13 +72,7 @@ public class MainActivity extends AppCompatActivity {
         //something with battery
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
-        locationCallBack = new LocationCallback() {
-            @Override
-            public void onLocationResult(@NonNull LocationResult locationResult) {
-                super.onLocationResult(locationResult);
-                updateUIValues(locationResult.getLastLocation());
-            }
-        };
+
 
         btn_savePlace.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,13 +186,11 @@ public class MainActivity extends AppCompatActivity {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             //user provided the permission
-
             fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
                 @Override
                 public void onSuccess(Location location) {
                     //we got permissions. Put the values of location into the UI components
                     if (location != null) {
-                        updateUIValues(location);
                         currentLocation = location;
                     }
                 }
@@ -215,26 +203,6 @@ public class MainActivity extends AppCompatActivity {
                 requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_FINE_LOCATION);
             }
         }
-
     }
 
-    private void updateUIValues(Location location) {
-        Geocoder geocoder = new Geocoder(MainActivity.this);
-
-        try {
-            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-        } catch (Exception e) {
-//            tv_address.setText(R.string.unable_adress);
-        }
-
-        MyApplication myApplication = (MyApplication)getApplicationContext();
-        savedLocations = myApplication.getMyLocations();
-    }
-
-    //TODO
-    //wyłącz śledzenie
-    //TODO
-    //set marker on current location
-    //TODO
-    //view on AVD
 }
