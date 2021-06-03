@@ -1,12 +1,14 @@
 package com.example.whereismycar;
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -74,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
         btn_savePlace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,8 +101,21 @@ public class MainActivity extends AppCompatActivity {
         btn_showMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, MapsActivity.class);
-                startActivity(i);
+//                Intent i = new Intent(MainActivity.this, MapsActivity.class);
+//                startActivity(i);
+                SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+
+                String sSource = currentLocation.getLatitude() + ", " + currentLocation.getLongitude();
+
+                String latSaved = sharedPreferences.getString(LAT, "");
+                String lonSaved = sharedPreferences.getString(LON, "");
+                double dLatSaved = Double.parseDouble(latSaved);
+                double dLonSaved = Double.parseDouble(lonSaved);
+                String sDestination = dLatSaved + ", " + dLonSaved;
+
+                displayTrack(sSource, "50.6230724, 19.2750867");
+
+
             }
         });
 
@@ -144,6 +160,22 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Nieznana lokalizacja", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    private void displayTrack(String sSource, String sDestination) {
+        try {
+            Uri uri = Uri.parse("https://www.google.co.in/maps/dir/" + sSource + "/" + sDestination);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.setPackage("com.google.android.apps.maps");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } catch(ActivityNotFoundException e) {
+            Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=com.google.android.apps.maps");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+        }
     }
 
 
